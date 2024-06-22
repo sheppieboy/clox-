@@ -23,6 +23,17 @@ void runREPL()
     }
 }
 
+void report(int line, std::string& where, std::string& message)
+{
+    std::cout << "[line " << line << "] Error" << where << ": " << message << '\n';
+}
+
+void error(int line, std::string& message)
+{
+    report(line, "", message);
+}
+
+
 int main(int argc, char *argv[])
 {
     std::cout << argc << " files pasted" << "\n";
@@ -35,3 +46,4 @@ int main(int argc, char *argv[])
 
     return 0;
 }
+
