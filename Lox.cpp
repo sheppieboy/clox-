@@ -11,6 +11,18 @@ void readFromFile(const std::string& path)
     std::cout << buffer.str() << '\n';
 }
 
+void runREPL()
+{
+    for(;;)
+    {
+        std::cout << "> ";
+        std::string line;
+        std::getline(std::cin, line);
+        std::cout << line << ": read repl line from user and now break;" << std::endl;
+        break;
+    }
+}
+
 int main(int argc, char *argv[])
 {
     std::cout << argc << " files pasted" << "\n";
@@ -18,6 +30,8 @@ int main(int argc, char *argv[])
     std::cout << argv[0] << " : executeable passed\n";
 
     readFromFile(argv[1]);
+
+    runREPL();
 
     return 0;
 }
