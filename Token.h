@@ -1,6 +1,7 @@
 #pragma once
+#include <string>
 
-enum TokeType
+enum TokenType
 {
     //Single-char tokens
     LEFT_PAREN,
@@ -49,4 +50,12 @@ enum TokeType
     WHILE,
 
     EOF
+}
+
+class Token
+{
+    const TokenType type;
+    const std::string_view lexeme;
+    //some literal here
+    const unsigned int line;
 }

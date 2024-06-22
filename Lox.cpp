@@ -23,16 +23,15 @@ void runREPL()
     }
 }
 
-void report(int line, std::string& where, std::string& message)
+void report(int line, const std::string& where, const std::string& message)
 {
     std::cout << "[line " << line << "] Error" << where << ": " << message << '\n';
 }
 
-void error(int line, std::string& message)
+void error(int line, const std::string& message)
 {
     report(line, "", message);
 }
-
 
 int main(int argc, char *argv[])
 {
