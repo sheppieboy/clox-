@@ -49,13 +49,14 @@ enum TokenType
     VAR,
     WHILE,
 
-    EOF
-}
+    // EOF
+};
 
 class Token
 {
-    const TokenType type;
-    const std::string_view lexeme;
+private:
+    TokenType type;
+    std::string_view lexeme;
     //some literal here
-    const unsigned int line;
-}
+    unsigned int line;
+};
