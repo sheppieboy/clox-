@@ -4,7 +4,7 @@ set(SOURCES
 
 set(HEADERS
     Scanner.hpp
-    Token.h
+    Token.hpp
 )
 
 add_library(Frontend ${SOURCES} ${HEADERS})
