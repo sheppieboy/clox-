@@ -67,5 +67,26 @@ public:
     explicit Token(const TokenType& type, const std::string_view& lexeme, const TokenLiteral& literal, const unsigned int& line)
     : type{type}, lexeme{lexeme}, literal{literal}, line{line}
     {}
+
+    const TokenType& getType() const
+    {
+        return type;
+    }
+
+    const std::string_view getLexeme() const
+    {
+        return lexeme;
+    }
+
+    //inexpensive to copy as the TokenLiteral is either string_view, double, bool, nullptr
+    const TokenLiteral getTokenLiteral()
+    {
+        return literal;
+    }
+
+    const unsigned int getLine()
+    {
+        return line;
+    }
 };
 
