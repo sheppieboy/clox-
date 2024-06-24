@@ -7,7 +7,8 @@ FetchContent_MakeAvailable(googletest)
 
 add_executable(
   example1_test
-  example1_test.cpp
+  example1_test.cc
+  scanner_test.cpp
 )
 
 target_link_libraries(
