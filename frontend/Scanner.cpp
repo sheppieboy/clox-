@@ -65,12 +65,12 @@ void Scanner::scanToken()
 
 std::string_view Scanner::getSubStringView()
 {   
-    // std::cout << source.substr(0,5);
-    return std::string_view(source).substr(0, 5);
+    return std::string_view(source).substr(start, current);
 }
 
 char Scanner::advance()
 {
+    return source[current++];
 }
 
 void Scanner::addToken(const TokenType& type)
@@ -80,6 +80,7 @@ void Scanner::addToken(const TokenType& type)
 
 void Scanner::addToken(const TokenType& type, const TokenLiteral& literal)
 {
-    // std::string_view lexeme{}
+    std::string_view lexeme = getSubStringView();
+    tokens.emplace_back(type, lexeme, literal, line);
 }
 
