@@ -6,16 +6,15 @@ FetchContent_Declare(
 FetchContent_MakeAvailable(googletest)
 
 add_executable(
-  example1_test
-  example1_test.cc
+  frontend_tests
   scanner_test.cpp
 )
 
 target_link_libraries(
-  example1_test
+  frontend_tests
   GTest::gtest_main
   Frontend
 )
 
 include(GoogleTest)
-gtest_discover_tests(example1_test)
+gtest_discover_tests(frontend_tests)

@@ -6,16 +6,19 @@ TEST(ScannerTest, SingleCharTokens)
 {
     std::string source = "(){},.-+;/*";
     Scanner scanner{source};
-    // auto tokens = scanner.scanTokens();
+    auto tokens = scanner.scanTokens();
 
-    std::string_view text = scanner.getSubStringView();
-
-    EXPECT_EQ(text, "(){},");
-
+    ASSERT_EQ(tokens.size(), 12);
+    EXPECT_EQ(tokens[0].getType(), LEFT_PAREN);
+    EXPECT_EQ(tokens[1].getType(), RIGHT_PAREN);
+    EXPECT_EQ(tokens[2].getType(), LEFT_BRACE);
+    EXPECT_EQ(tokens[3].getType(), RIGHT_BRACE);
+    EXPECT_EQ(tokens[4].getType(), COMMA);
+    EXPECT_EQ(tokens[5].getType(), DOT);
+    EXPECT_EQ(tokens[6].getType(), MINUS);
+    EXPECT_EQ(tokens[7].getType(), PLUS);
+    EXPECT_EQ(tokens[8].getType(), SEMICOLON);
+    EXPECT_EQ(tokens[9].getType(), SLASH);
+    EXPECT_EQ(tokens[10].getType(), STAR);
+    EXPECT_EQ(tokens[11].getType(), END);
 }
-
-// ASSERT_EQ(tokens.size(), 11);
-    // EXPECT_EQ(tokens[0].getType(), LEFT_PAREN);
-    // EXPECT_EQ(tokens[1].getType(), RIGHT_PAREN);
-    // EXPECT_EQ(tokens[2].getType(), LEFT_BRACE);
-    // EXPECT_EQ(tokens[3].getType(), RIGHT_BRACE);
