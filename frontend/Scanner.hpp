@@ -21,8 +21,12 @@ private:
 
     void addToken(const TokenType& type, const TokenLiteral& literal);
 
+    
+
 public:
     explicit Scanner(std::string source);
 
     std::vector<Token>& scanTokens();
+
+    std::string_view getSubStringView();
 };
