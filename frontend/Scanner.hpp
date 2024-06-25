@@ -25,7 +25,7 @@ private:
 
     const char peek() const;
 
-    std::string_view getSubStringView() const;
+    const std::string_view getSubStringView();
     
 
 public:

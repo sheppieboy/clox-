@@ -22,3 +22,11 @@ TEST(ScannerTest, SingleCharTokens)
     EXPECT_EQ(tokens[10].getType(), STAR);
     EXPECT_EQ(tokens[11].getType(), END);
 }
+
+TEST(ScannerTest, Comments)
+{
+  Scanner scanner{"//this is a comment"};
+  auto tokens = scanner.scanTokens();
+  ASSERT_EQ(tokens.size(), 2);
+  ASSERT_EQ(tokens[0].getType(), COMMENT);
+}

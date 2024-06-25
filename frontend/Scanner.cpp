@@ -54,9 +54,6 @@ void Scanner::scanToken()
         case ';':
             addToken(SEMICOLON);
             break;
-        case '/':
-            addToken(SLASH);
-            break;
         case '*':
             addToken(STAR);
             break;
@@ -79,6 +76,7 @@ void Scanner::scanToken()
                 {
                     advance();
                 }
+                addToken(COMMENT);
             }
             else addToken(SLASH);
             break;
@@ -92,7 +90,7 @@ void Scanner::scanToken()
     }
 }
 
-std::string_view Scanner::getSubStringView()
+const std::string_view Scanner::getSubStringView()
 {   
     return std::string_view(source).substr(start, current);
 }

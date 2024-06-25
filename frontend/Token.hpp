@@ -27,6 +27,7 @@ enum TokenType
     GREATER_EQUAL,
     LESS,
     LESS_EQUAL,
+    COMMENT,
 
     //literal
     IDENTIFIER,
