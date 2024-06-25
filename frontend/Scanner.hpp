@@ -34,6 +34,12 @@ private:
     void number();
 
     char peekNext() const;
+
+    void identifier();
+
+    bool isAlpha(char c) const;
+
+    bool isAlphaNumeric(char c) const;
     
 
 public:

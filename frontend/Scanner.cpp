@@ -183,3 +183,18 @@ void Scanner::number()
     addToken(NUMBER);
 }
 
+void Scanner::identifier()
+{
+    while(isAlphaNumeric(peek())) advance();
+    addToken(IDENTIFIER);
+}
+
+bool Scanner::isAlpha(char c) const
+{
+    return ( c >= 'a' && c <= 'z') || (c >= 'A' && c <= 'Z') || c == '_';
+}
+
+bool Scanner::isAlphaNumeric(char c) const
+{
+    return isAlpha(c) || isDigit(c);
+}
