@@ -87,10 +87,13 @@ void Scanner::scanToken()
         case '\n':
             line++;
             break;
+        case '"':
+            string();
+            break;
     }
 }
 
-const std::string_view Scanner::getSubStringView()
+std::string_view Scanner::getSubStringView() const
 {   
     return std::string_view(source).substr(start, current);
 }
@@ -120,9 +123,36 @@ bool Scanner::match(char expected)
     return true;
 }
 
-const char Scanner::peek() const
+char Scanner::peek() const
 {
     if(isAtEnd()) return '\0';
     return source[current];
+}
+
+void Scanner::string()
+{   
+    //break condition is ending " or end of file
+    while(peek() != '"' && !isAtEnd())
+    {
+        if(peek() == '\n') line++;
+        advance();
+    }
+
+    //the string does not have a closing ", exit early and report error
+    if(isAtEnd())
+    {
+        //add error reporting
+        return;
+
+    }
+
+    // closing "
+    advance();
+
+
+    //trim quotes
+    std::string_view string_value = (source).substr(start + 1, current - 1);
+    //add token
+    addToken(STRING, string_value);
 }
 

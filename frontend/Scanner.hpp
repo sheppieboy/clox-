@@ -23,9 +23,11 @@ private:
 
     bool match(char expected);
 
-    const char peek() const;
+    char peek() const;
 
-    const std::string_view getSubStringView();
+    std::string_view getSubStringView() const;
+
+    void string();
     
 
 public:

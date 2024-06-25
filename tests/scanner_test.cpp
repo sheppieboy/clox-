@@ -45,3 +45,22 @@ TEST(Scanner, SingleCharAndComment)
   EXPECT_EQ(tokens[5].getType(), END);
 }
 
+TEST(Scanner, BasicString)
+{
+  std::string source = "\"hello\"";
+  Scanner scanner{source};
+  auto tokens = scanner.scanTokens();
+  ASSERT_EQ(tokens.size(), 2);
+  EXPECT_EQ(tokens[0].getType(), STRING);
+}
+
+
+//Scanner object
+// pass it a different string each time
+//pass it an expected sequence?
+
+//ensure correct size
+//ensure correct type
+//ensure correct lexeme
+//ensure correct literal value
+//ensure correct line?
