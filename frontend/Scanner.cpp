@@ -156,3 +156,30 @@ void Scanner::string()
     addToken(STRING, string_value);
 }
 
+bool Scanner::isDigit(char c) const 
+{
+    return c >= '0' && c <= '9';
+}
+
+char Scanner::peekNext() const
+{
+    if(current + 1 >= source.length()) return '\0';
+    return source[current+1];
+}
+
+void Scanner::number()
+{
+    while(isDigit(peek())) advance();
+
+    //check for fraction
+    if(peek() == '.'  && isDigit(peekNext()))
+    {   
+        //consume the '.';
+        advance();
+
+        while(isDigit(peek())) advance();
+    }
+
+    addToken(NUMBER);
+}
+

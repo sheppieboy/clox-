@@ -28,6 +28,12 @@ private:
     std::string_view getSubStringView() const;
 
     void string();
+
+    bool isDigit(char c) const;
+
+    void number();
+
+    char peekNext() const;
     
 
 public:
