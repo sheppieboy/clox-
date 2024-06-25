@@ -21,6 +21,7 @@ private:
 
     void addToken(const TokenType& type, const TokenLiteral& literal);
 
+    bool match(char expected);
     
 
 public:

@@ -60,6 +60,18 @@ void Scanner::scanToken()
         case '*':
             addToken(STAR);
             break;
+        case '!':
+            addToken(match('=') ? BANG_EQUAL : BANG);
+            break;
+        case '>':
+            addToken(match('=') ? GREATER_EQUAL : GREATER);
+            break;
+        case '<':
+            addToken(match('=') ? LESS_EQUAL : LESS);
+            break;
+        case '=':
+            addToken(match('=') ? EQUAL_EQUAL : EQUAL);
+            break;
     }
 }
 
@@ -82,5 +94,14 @@ void Scanner::addToken(const TokenType& type, const TokenLiteral& literal)
 {
     std::string_view lexeme = getSubStringView();
     tokens.emplace_back(type, lexeme, literal, line);
+}
+
+bool Scanner::match(char expected)
+{
+    if(isAtEnd()) return false;
+    if(source[current] != expected) return false;
+
+    current++;
+    return true;
 }
 
