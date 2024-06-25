@@ -25,42 +25,166 @@ TEST(ScannerTest, SingleCharTokens)
 
 TEST(ScannerTest, Comments)
 {
-  Scanner scanner{"//this is a comment"};
-  auto tokens = scanner.scanTokens();
-  ASSERT_EQ(tokens.size(), 2);
-  ASSERT_EQ(tokens[0].getType(), COMMENT);
+    Scanner scanner{"//this is a comment"};
+    auto tokens = scanner.scanTokens();
+    ASSERT_EQ(tokens.size(), 2);
+    ASSERT_EQ(tokens[0].getType(), COMMENT);
 }
 
 TEST(Scanner, SingleCharAndComment)
 {
-  std::string source = "(){} //comment is here";
-  Scanner scanner{source};
-  auto tokens = scanner.scanTokens();
-  ASSERT_EQ(tokens.size(), 6);
-  EXPECT_EQ(tokens[0].getType(), LEFT_PAREN);
-  EXPECT_EQ(tokens[1].getType(), RIGHT_PAREN);
-  EXPECT_EQ(tokens[2].getType(), LEFT_BRACE);
-  EXPECT_EQ(tokens[3].getType(), RIGHT_BRACE);
-  EXPECT_EQ(tokens[4].getType(), COMMENT);
-  EXPECT_EQ(tokens[5].getType(), END);
+    std::string source = "(){} //comment is here";
+    Scanner scanner{source};
+    auto tokens = scanner.scanTokens();
+    ASSERT_EQ(tokens.size(), 6);
+    EXPECT_EQ(tokens[0].getType(), LEFT_PAREN);
+    EXPECT_EQ(tokens[1].getType(), RIGHT_PAREN);
+    EXPECT_EQ(tokens[2].getType(), LEFT_BRACE);
+    EXPECT_EQ(tokens[3].getType(), RIGHT_BRACE);
+    EXPECT_EQ(tokens[4].getType(), COMMENT);
+    EXPECT_EQ(tokens[5].getType(), END);
 }
 
 TEST(Scanner, BasicString)
 {
-  std::string source = "\"hello\"";
-  Scanner scanner{source};
-  auto tokens = scanner.scanTokens();
-  ASSERT_EQ(tokens.size(), 2);
-  EXPECT_EQ(tokens[0].getType(), STRING);
+    std::string source = "\"hello\"";
+    Scanner scanner{source};
+    auto tokens = scanner.scanTokens();
+    ASSERT_EQ(tokens.size(), 2);
+    EXPECT_EQ(tokens[0].getType(), STRING);
 }
 
 
 //Scanner object
 // pass it a different string each time
-//pass it an expected sequence?
+//pass it an expected token array sequence?
 
 //ensure correct size
 //ensure correct type
 //ensure correct lexeme
 //ensure correct literal value
 //ensure correct line?
+
+//I want the tokens vec
+//I want a vector of the correct tokens
+// paired with a string
+struct ScannerExpectedInput
+{   
+    std::string test_case;
+    std::string source;
+    std::vector<Token> expected;
+};
+
+void PrintTo(const ScannerExpectedInput& sei, std::ostream* os)
+{
+     *os << sei.test_case;
+}
+
+//test case: SingleCharTokens
+ScannerExpectedInput singleCharTokens
+{   
+    "SingleCharTokens",
+    "(){},.-+;/*",
+    {
+        Token(LEFT_PAREN, "(", nullptr, 1),
+        Token(RIGHT_PAREN, ")", nullptr, 1),
+        Token(LEFT_BRACE, "{", nullptr, 1),
+        Token(RIGHT_BRACE, "}", nullptr, 1),
+        Token(COMMA, ",", nullptr, 1),
+        Token(DOT, ".", nullptr, 1),
+        Token(MINUS, "-", nullptr, 1),
+        Token(PLUS, "+", nullptr, 1),
+        Token(SEMICOLON, ";", nullptr, 1),
+        Token(SLASH, "/", nullptr, 1),
+        Token(STAR, "*", nullptr, 1)
+    },
+};
+
+//test case: Comments
+ScannerExpectedInput onlyComments
+{   
+    "OnlyComments",
+    "//this is a comment \n //another comment",
+    {
+        Token(COMMENT, "//", nullptr, 1),
+        Token(COMMENT, "//", nullptr, 2),
+    },
+
+};
+
+//test case: Comments & Tokens
+ScannerExpectedInput commentsAndTokens
+{   
+    "CommentsAndTokens",
+    "(){} //comment",
+    {
+        Token(LEFT_PAREN, "(", nullptr, 1),
+        Token(RIGHT_PAREN, ")", nullptr, 1),
+        Token(LEFT_BRACE, "{", nullptr, 1),
+        Token(RIGHT_BRACE, "}", nullptr, 1),
+        Token(COMMENT, "//", nullptr, 1),
+    },
+};
+
+//test case: String Literals
+ScannerExpectedInput stringLiterals
+{
+    "OnlyStringLiterals",
+    "\"hello\"",
+    {
+        Token(STRING, "hello", nullptr, 1),
+    },
+};
+
+//test case: number literals
+
+//test case: identifiers
+
+//test case: keywords
+
+//test case: Combination of Tokens 1
+
+//test case: Combination of Tokens 2
+
+using ::testing::TestWithParam;
+using ::testing::Values;
+
+class ScannerTest : public TestWithParam<ScannerExpectedInput>
+{
+    protected:
+        std::vector<Token> scanned;
+        std::vector<Token> expected;
+        Scanner* scanner;
+
+        void SetUp() override
+        {   
+            ScannerExpectedInput input = GetParam();
+            const std::string source = input.source;
+            expected = input.expected;
+            scanner = new Scanner(source);
+            scanned = scanner->scanTokens();
+        }
+
+        void TearDown() override
+        {
+            delete scanner;
+            scanner = nullptr;
+        }
+};
+
+TEST_P(ScannerTest, CorrectTokenNumer)
+{   
+    ASSERT_EQ(scanned.size() - 1, expected.size());
+}
+
+TEST_P(ScannerTest, ValidTypesForTokens)
+{
+    EXPECT_EQ(scanned[0].getType(), expected[0].getType());
+}
+
+
+INSTANTIATE_TEST_SUITE_P(ScannerTestParameters, ScannerTest,
+Values(
+    singleCharTokens, onlyComments, stringLiterals
+    )
+);
