@@ -22,6 +22,10 @@ private:
     void addToken(const TokenType& type, const TokenLiteral& literal);
 
     bool match(char expected);
+
+    const char peek() const;
+
+    std::string_view getSubStringView() const;
     
 
 public:
@@ -29,5 +33,4 @@ public:
 
     std::vector<Token>& scanTokens();
 
-    std::string_view getSubStringView();
 };

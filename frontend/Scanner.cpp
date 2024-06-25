@@ -72,6 +72,23 @@ void Scanner::scanToken()
         case '=':
             addToken(match('=') ? EQUAL_EQUAL : EQUAL);
             break;
+        case '/':
+            if(match('/'))
+            {
+                while(peek() != '\n' && !isAtEnd()) 
+                {
+                    advance();
+                }
+            }
+            else addToken(SLASH);
+            break;
+        case '\r':
+        case '\t':
+        case ' ':
+            break;
+        case '\n':
+            line++;
+            break;
     }
 }
 
@@ -103,5 +120,11 @@ bool Scanner::match(char expected)
 
     current++;
     return true;
+}
+
+const char Scanner::peek() const
+{
+    if(isAtEnd()) return '\0';
+    return source[current];
 }
 
