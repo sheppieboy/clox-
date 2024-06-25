@@ -30,3 +30,18 @@ TEST(ScannerTest, Comments)
   ASSERT_EQ(tokens.size(), 2);
   ASSERT_EQ(tokens[0].getType(), COMMENT);
 }
+
+TEST(Scanner, SingleCharAndComment)
+{
+  std::string source = "(){} //comment is here";
+  Scanner scanner{source};
+  auto tokens = scanner.scanTokens();
+  ASSERT_EQ(tokens.size(), 6);
+  EXPECT_EQ(tokens[0].getType(), LEFT_PAREN);
+  EXPECT_EQ(tokens[1].getType(), RIGHT_PAREN);
+  EXPECT_EQ(tokens[2].getType(), LEFT_BRACE);
+  EXPECT_EQ(tokens[3].getType(), RIGHT_BRACE);
+  EXPECT_EQ(tokens[4].getType(), COMMENT);
+  EXPECT_EQ(tokens[5].getType(), END);
+}
+
