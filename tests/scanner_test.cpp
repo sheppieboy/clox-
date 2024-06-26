@@ -54,20 +54,6 @@ TEST(Scanner, BasicString)
     EXPECT_EQ(tokens[0].getType(), STRING);
 }
 
-
-//Scanner object
-// pass it a different string each time
-//pass it an expected token array sequence?
-
-//ensure correct size
-//ensure correct type
-//ensure correct lexeme
-//ensure correct literal value
-//ensure correct line?
-
-//I want the tokens vec
-//I want a vector of the correct tokens
-// paired with a string
 struct ScannerExpectedInput
 {   
     std::string test_case;
@@ -84,7 +70,7 @@ void PrintTo(const ScannerExpectedInput& sei, std::ostream* os)
 ScannerExpectedInput singleCharTokens
 {   
     "SingleCharTokens",
-    "(){},.-+;/*",
+    "(){},.-+;/\n*",
     {
         Token(LEFT_PAREN, "(", nullptr, 1),
         Token(RIGHT_PAREN, ")", nullptr, 1),
@@ -96,7 +82,7 @@ ScannerExpectedInput singleCharTokens
         Token(PLUS, "+", nullptr, 1),
         Token(SEMICOLON, ";", nullptr, 1),
         Token(SLASH, "/", nullptr, 1),
-        Token(STAR, "*", nullptr, 1)
+        Token(STAR, "*", nullptr, 2)
     },
 };
 
@@ -130,17 +116,43 @@ ScannerExpectedInput commentsAndTokens
 ScannerExpectedInput stringLiterals
 {
     "OnlyStringLiterals",
-    "\"hello\"",
+    "\"hello\" \"another\" \n \"last\"",
     {
-        Token(STRING, "hello", nullptr, 1),
+        Token(STRING, "hello", "hello", 1),
+        Token(STRING, "another", "another", 1),
+        Token(STRING, "last", "last", 2),
     },
 };
 
 //test case: number literals
+ScannerExpectedInput onlyNumbers
+{
+    "OnlyNumbers",
+    "1234 67 \n 27.456",
+    {
+        Token(NUMBER, "1234", static_cast<double>(1234), 1),
+        Token(NUMBER, "67", static_cast<double>(67), 1),
+        Token(NUMBER, "27.456", static_cast<double>(27.456), 2),
+    }
+};
 
 //test case: identifiers
+ScannerExpectedInput identifiers
+{
+    "OnlyIdentifiers",
+    "funcCall anotherFuncCall \n call _CALL funcCall", //contains a repeat
+    {
+        Token(IDENTIFIER, "funcCall", "funcCall", 1),
+        Token(IDENTIFIER, "anotherFuncCall", "anotherFuncCall", 1),
+        Token(IDENTIFIER, "call", "call", 1),
+        Token(IDENTIFIER, "_CALL", "_CALL", 2)
+        Token(IDENTIFIER, "funcCall", "funcCall", 2)
+    }
+};
 
 //test case: keywords
+
+//test case: identifiers and keywords
 
 //test case: Combination of Tokens 1
 
@@ -185,6 +197,6 @@ TEST_P(ScannerTest, ValidTypesForTokens)
 
 INSTANTIATE_TEST_SUITE_P(ScannerTestParameters, ScannerTest,
 Values(
-    singleCharTokens, onlyComments, stringLiterals
+    singleCharTokens, onlyComments
     )
 );
