@@ -1,0 +1,10 @@
+lexeme stored as string_view for efficiency, and will persist as long as source string
+persists.  Must be careful with source string lifetime to avoid dangling ref in tokens.
+
+allows multiple line string literals in scanner
+
+added comment token 
+
+****missing error reporting******
+
+THIS CODE IS UGLY, REWORK TOKEN AND SCANNER AND THEN THE SUBSEQUENT TESTS!!!!!
