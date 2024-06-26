@@ -95,7 +95,7 @@ void Scanner::scanToken()
 
 std::string_view Scanner::getSubStringView() const
 {   
-    return std::string_view(source).substr(start, current);
+    return std::string_view(source).substr(start, current-start);
 }
 
 char Scanner::advance()

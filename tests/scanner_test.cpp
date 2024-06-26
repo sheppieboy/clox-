@@ -145,8 +145,8 @@ ScannerExpectedInput identifiers
         Token(IDENTIFIER, "funcCall", "funcCall", 1),
         Token(IDENTIFIER, "anotherFuncCall", "anotherFuncCall", 1),
         Token(IDENTIFIER, "call", "call", 1),
-        Token(IDENTIFIER, "_CALL", "_CALL", 2)
-        Token(IDENTIFIER, "funcCall", "funcCall", 2)
+        Token(IDENTIFIER, "_CALL", "_CALL", 2),
+        Token(IDENTIFIER, "funcCall", "funcCall", 2),
     }
 };
 
@@ -190,8 +190,43 @@ TEST_P(ScannerTest, CorrectTokenNumer)
 }
 
 TEST_P(ScannerTest, ValidTypesForTokens)
+{   
+    for(int i = 0; i < expected.size(); ++i)
+    {
+        EXPECT_EQ(scanned[i].getType(), expected[i].getType());
+    }
+    
+}
+
+TEST_P(ScannerTest, EqualityOfLiterals)
+{   
+    for(int i = 0; i < expected.size(); ++i)
+    {
+        EXPECT_EQ(scanned[i].getTokenLiteral(), expected[i].getTokenLiteral());
+    }
+}
+
+TEST_P(ScannerTest, LexemeIsEqualToExpected)
 {
-    EXPECT_EQ(scanned[0].getType(), expected[0].getType());
+    for(int i = 0; i < expected.size(); ++i)
+    {
+        EXPECT_EQ(scanned[i].getLexeme(), expected[i].getLexeme());
+    }
+
+}
+
+TEST_P(ScannerTest, HandlingLineNumbers)
+{   
+    for(int i = 0; i < expected.size(); ++i)
+    {
+        EXPECT_EQ(scanned[i].getLine(), expected[i].getLine());
+    }
+}
+
+TEST_P(ScannerTest, RecievedEndToken)
+{   
+    const auto s = scanned.size()-1;
+    EXPECT_EQ(scanned[s].getType(), END);
 }
 
 
